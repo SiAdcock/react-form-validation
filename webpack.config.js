@@ -1,7 +1,7 @@
 const config = {
   entry: './client.js',
   output: {
-    path: __dirname + '/build',
+    path: __dirname + '/build/assets',
     filename: 'client.js'
   },
   module: {
