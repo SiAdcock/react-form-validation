@@ -24,7 +24,9 @@ gulp.task('js', (cb) => {
 });
 gulp.task('nodemon', () => {
   liveReload.listen();
-  nodemon('--exec node index.js');
+  nodemon({
+    script: 'index.js'
+  });
 });
 gulp.task('webpack-dev-server', () => {
   return new WebpackDevServer(webpack(webpackConfig), {
