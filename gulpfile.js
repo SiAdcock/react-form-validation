@@ -3,6 +3,7 @@ const liveReload = require('gulp-livereload');
 const gutil = require('gulp-util');
 const nodemon = require('gulp-nodemon');
 const sass = require('gulp-sass');
+const eslint = require('gulp-eslint');
 const webpack = require('webpack');
 const webpackStream = require('webpack-stream');
 const WebpackDevServer = require('webpack-dev-server');
@@ -22,7 +23,7 @@ gulp.task('js', (cb) => {
     cb();
   });
 });
-gulp.task('js:stream', (cb) => {
+gulp.task('js:stream', () => {
   return gulp.src('./client.js')
     .pipe(webpackStream(webpackConfig))
     .pipe(gulp.dest('./build/assets'));
@@ -53,4 +54,14 @@ gulp.task('webpack-dev-server', () => {
     }
     gutil.log('[webpack-dev-server]', 'http://localhost:8080/webpack-dev-server/index.html');
   });
+});
+gulp.task('lint', () => {
+  return gulp.src([
+      '*.js',
+      'app/**/*.js',
+      'lib/**/*.js'
+    ])
+    .pipe(eslint())
+    .pipe(eslint.format())
+    .pipe(eslint.failOnError());
 });
