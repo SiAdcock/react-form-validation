@@ -2,15 +2,17 @@ const gulp = require('gulp');
 const liveReload = require('gulp-livereload');
 const gutil = require('gulp-util');
 const nodemon = require('gulp-nodemon');
+const sass = require('gulp-sass');
 const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 const webpackConfig = require('./webpack.config.js');
 
 gulp.task('default', ['server']);
 gulp.task('server', ['assets', 'webpack-dev-server', 'nodemon'], () => {
-  gulp.watch(['app/**/*'], ['js'])
+  gulp.watch(['app/**/*'], ['js']);
+  gulp.watch(['app/styles/**/*.scss'], ['scss']);
 });
-gulp.task('assets', ['js']);
+gulp.task('assets', ['js', 'scss']);
 gulp.task('js', (cb) => {
   webpack(webpackConfig, (err, stats) => {
     if (err) {
@@ -21,6 +23,11 @@ gulp.task('js', (cb) => {
     }));
     cb();
   })
+});
+gulp.task('scss', () => {
+  return gulp.src('./app/styles/main.scss')
+    .pipe(sass().on('error', sass.logError))
+    .pipe(gulp.dest('./build/assets'));
 });
 gulp.task('nodemon', () => {
   liveReload.listen();
