@@ -11,7 +11,7 @@ const webpackConfig = require('./webpack.config.js');
 
 gulp.task('default', ['server']);
 gulp.task('server', ['assets', 'webpack-dev-server', 'nodemon'], () => {
-  gulp.watch(['app/**/*'], ['js:stream']);
+  gulp.watch(['app/**/*'], ['js']);
   gulp.watch(['app/styles/**/*.scss'], ['scss']);
 });
 gulp.task('assets', ['js:stream', 'scss']);
@@ -47,7 +47,8 @@ gulp.task('webpack-dev-server', () => {
     publicPath: webpackConfig.output.publicPath,
     hot: true,
     quiet: true,
-    noInfo: true
+    noInfo: true,
+    headers: { 'Access-Control-Allow-Origin': '*' }
   }).listen(8080, 'localhost', (err) => {
     if (err) {
       throw new gutil.PluginError('webpack-dev-server', err);
