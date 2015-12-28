@@ -1,7 +1,10 @@
-.form-row {
-
+.form-row.no-label {
+  padding-left: 20%;
 }
 
-.label {
-  width: 50%;
+label {
+  min-width: 20%;
+  display: inline-block;
+  text-align: right;
+  font-weight: bold;
 }
