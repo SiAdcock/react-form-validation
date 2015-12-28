@@ -4,25 +4,28 @@ const gutil = require('gulp-util');
 const nodemon = require('gulp-nodemon');
 const sass = require('gulp-sass');
 const webpack = require('webpack');
+const webpackStream = require('webpack-stream');
 const WebpackDevServer = require('webpack-dev-server');
 const webpackConfig = require('./webpack.config.js');
 
 gulp.task('default', ['server']);
 gulp.task('server', ['assets', 'webpack-dev-server', 'nodemon'], () => {
-  gulp.watch(['app/**/*'], ['js']);
+  gulp.watch(['app/**/*'], ['js:stream']);
   gulp.watch(['app/styles/**/*.scss'], ['scss']);
 });
-gulp.task('assets', ['js', 'scss']);
+gulp.task('assets', ['js:stream', 'scss']);
 gulp.task('js', (cb) => {
-  webpack(webpackConfig, (err, stats) => {
+  webpack(webpackConfig, (err) => {
     if (err) {
       throw new gutil.PluginError('webpack', err);
     }
-    gutil.log('[webpack]', stats.toString({
-      colors: true
-    }));
     cb();
-  })
+  });
+});
+gulp.task('js:stream', (cb) => {
+  return gulp.src('./client.js')
+    .pipe(webpackStream(webpackConfig))
+    .pipe(gulp.dest('./build/assets'));
 });
 gulp.task('scss', () => {
   return gulp.src('./app/styles/main.scss')
