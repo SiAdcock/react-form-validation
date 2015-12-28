@@ -18,6 +18,7 @@ const config = {
       loader: 'babel?presets[]=react'
     }]
   },
+  devtool: 'source-map',
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
