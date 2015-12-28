@@ -1,8 +1,9 @@
 {
   "name": "react-form-validation",
   "version": "0.0.1",
-  "description": "",
+  "description": "Universal form validation with React, Courtroom and Webpack",
   "main": "index.js",
+  "repository": "https://github.com/SiAdcock/react-form-validation",
   "scripts": {
     "start": "node ./index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
